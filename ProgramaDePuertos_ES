@@ -1,0 +1,34 @@
+int leds[] = {13, 12, 11, 10, 9, 8};
+int btn=6;
+int contador;
+void setup()
+{
+  int i = 0;
+  for ( i = 0; i < 6; i++)
+    pinMode(leds[i], OUTPUT);
+    pinMode(btn, INPUT);
+}
+
+void loop(){
+int i = 0, j = 0;
+if (digitalRead(btn)==HIGH){ // Si presiono el pulsador
+ contador++; // Aumento el contador
+for ( i = 0; i < 64; i++)
+  {
+    for ( j = 0; j < 6; j++)
+    {
+      if ( ( (i >> j) & 1 )  == 1 ){
+        digitalWrite(leds[j], HIGH);
+        contador++;
+        delay(300);
+        }
+      else digitalWrite(leds[j], LOW);
+      contador=0; // vuelve a 0
+    }
+    delay(600);
+  }
+
+while (digitalRead(btn)==HIGH){} //Al presionar no hace nada mas
+ 
+}
+}
