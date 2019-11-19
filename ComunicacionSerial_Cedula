@@ -1,0 +1,43 @@
+
+String dato;
+char entrada[11];
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Ingrese su numero de cedula con la estructura (Ej: 100337804-7)");
+}
+
+void loop() {
+
+  if (Serial.available() > 0) {
+
+    dato = Serial.readString();
+
+    char entrada[11] = {0};
+    entrada[11] = Serial.read(); //este
+
+    // say what was sent:
+    Serial.print("Tu ingresaste: \'");
+    Serial.write(entrada[11]);
+    Serial.print("\'  Se evalua lo siguiente: ");
+
+    Serial.println(entrada[11]);
+
+    // analyze what was sent:
+    if (isAlphaNumeric (entrada[11] > 11)) {
+      Serial.println("Su cedula esta mal escrita o no concuerda con la estructura del codigo");
+    }
+    if (isAlphaNumeric(entrada[11] < 11)) {
+      Serial.println("Su cedula esta bien escrita y concuerda con la estructura del codigo");
+    }
+    if (isAlphaNumeric(entrada[11] = 11) ) {
+      Serial.println("Su cedula tiene 11 digitos");
+    }
+
+    Serial.println();
+    Serial.println("Ingresa un nuevo numero de cedula:");
+    Serial.println();
+  }
+
+}
+
