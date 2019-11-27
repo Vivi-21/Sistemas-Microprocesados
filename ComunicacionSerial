@@ -1,0 +1,71 @@
+/*
+ * LABORATORIO 3
+ * PILLAJO ESTEFANÍA
+ * QUINATOA CAROLINA
+ * YUCAILLA VIVIANA
+ */
+void setup() {
+  Serial.begin(9600);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(12, OUTPUT);
+}
+
+void loop() {
+  if(Serial.available())
+  {
+    char numero = Serial.read();
+    if (numero == '1')
+      {
+      digitalWrite(8, HIGH);
+      }
+
+    if (numero == '2')
+      {
+      digitalWrite(9, HIGH);
+      }
+
+    if (numero == '3')
+      {
+      digitalWrite(10, HIGH);
+      }
+
+    if (numero == '4')
+      {
+      digitalWrite(11, HIGH);
+      }
+
+    if (numero == '5')
+      {
+      digitalWrite(12, HIGH);
+      } 
+
+
+    if (numero == 'A')
+      {
+      digitalWrite(8, LOW);
+      }
+
+    if (numero == 'B')
+      {
+      digitalWrite(9, LOW);
+      }
+
+    if (numero == 'C')
+      {
+      digitalWrite(10, LOW);
+      }
+
+    if (numero == 'D')
+      {
+      digitalWrite(11, LOW);
+      }
+
+    if (numero == 'E')
+      {
+      digitalWrite(12, LOW);
+      }               
+    }
+}
