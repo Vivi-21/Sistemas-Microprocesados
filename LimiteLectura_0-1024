@@ -1,0 +1,33 @@
+/*
+   UNIVERSIDAD TÉCNICA DEL NORTE
+   FICA/CIERCOM
+   SISTEMAS MICROPROCESADOS
+   DOCENTE: PAÚL ROSERO
+   ESTUDIANTE: VIVIANA YUCAILLA
+   SEMESTRE:6to
+*/
+int dato_min;
+int LedRed = 13;
+
+void setup() {
+  Serial.begin(9600);
+  dato_min = analogRead(0);
+  pinMode(LedRed, OUTPUT);
+}
+
+void loop() {
+
+  float dato_max = ((analogRead(0) * 1050.0) / 1023.0);
+
+  Serial.println(dato_max);
+  delay(400);
+
+  if (dato_max > 1023.0) {
+    digitalWrite(13, HIGH);
+    Serial.println("Se ha superado el limite de lectura del conversor analogo digital (0-1024)");
+
+  }
+  else {
+    digitalWrite(13, LOW);
+  }
+}
