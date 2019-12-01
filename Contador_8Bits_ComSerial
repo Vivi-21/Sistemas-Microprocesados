@@ -49,10 +49,9 @@ void loop() {
       else {
         Serial.println("El numero ingresado no es valido");
       }
-
     }
     else {
-      Serial.println("Error");
+      Serial.println("Hay un error en el ingreso del numero");
     }
     Serial.print("El numero ingresado es \n");
     Serial.print(n1);
