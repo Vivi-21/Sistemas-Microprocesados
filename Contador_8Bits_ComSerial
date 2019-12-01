@@ -1,0 +1,63 @@
+/*
+   UNIVERSIDAD TÉCNICA DEL NORTE
+   FICA/CIERCOM
+   SISTEMAS MICROPROCESADOS
+   DOCENTE: PAÚL ROSERO
+   ESTUDIANTE: VIVIANA YUCAILLA
+   SEMESTRE:6to
+*/
+
+int leds[] = {5, 6, 7, 8, 9, 10, 11, 12};
+int n1;
+int n2;
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("\n Ingrese un numero");
+  for (int i = 0; i < 8; i++) {
+    pinMode(leds[i], OUTPUT);
+  }
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    for (int i = 0; i < 8; i++) {
+      digitalWrite(leds[i], LOW);
+    }
+
+    n1 = Serial.parseInt();
+
+    if (int (n1) == n1) {
+
+      if (n1 >= 0 && n1 < 256) {
+
+        n2 = int(n1);
+
+
+        for (int i = 0; i < 8; i++) {
+          if (n2 % 2 == 1) {
+
+            digitalWrite(leds[i], HIGH);
+
+          }
+          else {
+            digitalWrite(leds[i], LOW);
+          }
+          n2 = n2 / 2;
+        }
+      }
+      else {
+        Serial.println("El numero ingresado no es valido");
+      }
+
+    }
+    else {
+      Serial.println("Error");
+    }
+    Serial.print("El numero ingresado es \n");
+    Serial.print(n1);
+    Serial.println('\n');
+    Serial.println("Ingrese otro numero");
+    delay(2000);
+  }
+}
