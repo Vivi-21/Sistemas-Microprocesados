@@ -1,0 +1,87 @@
+/*
+   UNIVERSIDAD TÉCNICA DEL NORTE
+   FICA/CIERCOM
+   SISTEMAS MICROPROCESADOS
+   DOCENTE: PAÚL ROSERO
+   ESTUDIANTE: VIVIANA YUCAILLA
+   SEMESTRE:6to
+*/
+
+String dato;
+int i = 0; //creamos e inicializamos el contador i
+int j = 0; //creamos e inicializamos el contador j
+int leds[] = {3, 4, 5, 6, 7}; //creamos un vector de 5 posiciones que corresponden a los pines de salida del arduino
+void setup() {
+  Serial.begin(9600);
+  for (int i = 0; i < 5; i++) {
+    pinMode(leds[i], OUTPUT);
+  }
+  Serial.println("A continuación eliga el juego a prender:");
+  Serial.println("Juego 1. ACBF");
+  Serial.println("Juego 2. ACGF");
+  Serial.println("Juego 3. ADBF");
+  Serial.println("Juego 4. ADBH");
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+
+    dato = Serial.readString();
+    Serial.println(dato);
+    if (dato == "ACBF") {
+      juego1();// llamamos el metodo del juego 1
+      delay(200);// permite que exista una pausa en el cambio de juego a juego
+    }
+    if (dato == "ACGF") {
+      juego2();// llamamos el metodo del juego 2
+      delay(200);// permite que exista una pausa en el cambio de juego a juego
+    }
+    if (dato == "ADBF") {
+      juego3();// llamamos el metodo del juego 3
+      delay(200);// permite que exista una pausa en el cambio de juego a juego
+    }
+    if (dato == "ADBH") {
+      juego4();// llamamos el metodo del juego 4
+      delay(200);// permite que exista una pausa en el cambio de juego a juego
+    }
+  }
+}
+void juego1() {  //creamos el metodo del juego 1
+  for (i = 0; i < 5; i++) { //este ciclo permite determinar la secuencia en que los pines se pondran en alto
+    digitalWrite(leds[i], HIGH);
+    delay(200);
+  }
+  for (i = 5; i >= 0; i--) { //este ciclo hace que los leds se apaguen en secuencia contraria al encendido.
+    digitalWrite(leds[i], LOW);
+    delay(200);
+  }
+}
+
+void juego2() { //creamos el metodo del juego 2
+  for (i = 5; i >= 0; i--) { //este ciclo hace que los leds se apaguen en secuencia contraria al encendido.
+    digitalWrite(leds[i], HIGH);
+    delay(200);
+  }
+  for (i = 0; i < 5; i++) { //este ciclo permite determinar la secuencia en que los pines se pondran en alto
+    digitalWrite(leds[i], LOW);
+    delay(200);
+  }
+}
+void juego3() {//creamos el metodo del juego 3
+  for (i = 0, j = 4; i < 3; i++, j--) { 
+    digitalWrite(leds[i], HIGH), digitalWrite(leds[j], HIGH);
+    delay(300);
+  }
+  for (i = 4, j = 0; i >= 0; i--, j++) { 
+    digitalWrite(leds[i], LOW), digitalWrite(leds[j], LOW);
+    delay(300);
+  }
+}
+void juego4() { //creamos el metodo del juego 4
+  for (i = 0, j = 5; i < 4; i++, j++) { //este ciclo utiliza dos contadores y permite que los leds se enciendan y apaguen en pares con un led apagado en medio de ellos.
+    digitalWrite(leds[i], HIGH), digitalWrite(leds[j], HIGH);
+    delay(300);
+    digitalWrite(leds[i], LOW), digitalWrite(leds[j], LOW);
+    delay(300);
+  }
+}
