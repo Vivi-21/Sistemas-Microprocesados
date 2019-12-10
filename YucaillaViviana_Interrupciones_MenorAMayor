@@ -1,0 +1,98 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+   FICA/CIERCOM
+   SISTEMAS MICROPROCESADOS
+   DOCENTE: PAÚL ROSERO
+   ESTUDIANTE: VIVIANA YUCAILLA
+   SEMESTRE:6to
+   
+ * Realizar un ejercicio en el cual tenga las etapas de: (i)Ingreso de datos y (ii) ordenamiento 
+ * (i)Al ingresar la palabra solo pueden ser números por comunicación serial. 
+ * (ii) Una vez ingresados lo números, ordenarlos de menor a mayor e imprimirlo por comunicación serial.
+ */
+
+int modos=0;     //las funciones de int 0
+int contador=0;  //el conteo desde la int 1
+int i=0;        // contar hasta el limite establecido por int 1
+int opcion;
+int num;
+String dato;
+
+void setup() {
+  attachInterrupt(0, on, LOW);                           // Interrupcion para activar el sistema
+  attachInterrupt(1,seleccion,LOW);                      // Interrupcion par ingresar los numeros
+  Serial.begin(9600);
+  Serial.println("Presione el boton1 para encender el sistema");
+}
+
+void loop() {
+  if((contador==1) && (modos==1)){
+   if(Serial.available()>0){      //Solo inicia si cumple las condiciones y se ha ingresado algo en el serial
+      dato=Serial.readString();   
+      
+      Serial.println("Numeros ingresados:");
+      Serial.println(dato);
+      Serial.println("\n");
+      Serial.println("Para ordenar los numeros de menor a mayor presione el boton 1");
+   }
+  }
+  
+  if((modos==2) && (dato !="")){ //Si no se ingresa nada no corre el programa 
+     int orden[dato.length()];
+     for(i=0;i<dato.length();i++){
+        int cifra=dato.substring(i,(i+1)).toInt();   // datos se convierten a int  
+        orden[i]=cifra;            // datos guardados en el vector orden
+     }
+    do{
+      opcion=0;                            // Ordenar de menor a mayor
+      for (i = 0; i < dato.length(); i++) {
+        if(orden[i]>orden[i+1]){
+          opcion=1;
+          num=orden[i];
+          orden[i]=orden[i+1];
+          orden[i+1]=num;
+        }
+      }
+    }
+    while(opcion);
+    for(i = 0; i < dato.length(); i++){
+      Serial.print(orden[i]);
+    }
+    dato="";
+  }
+}
+
+void on(){ // Para encender el programa
+  switch(modos){
+    case 0:
+      Serial.println("");
+      Serial.println("----->SISTEMA ENCENDIDO<-----");
+      Serial.println("Para el ingreso de datos presione el boton 2");
+      modos++;
+    break;
+    case 1:
+      Serial.println("");
+      Serial.println("Los numeros ordenados son los siguientes:");
+      modos++;
+    break;
+    case 2:
+      Serial.println("");
+      Serial.println("----->SISTEMA APAGADO<-----");
+      i=0;
+      modos=0;
+      contador=0; 
+    break;
+  }
+}
+
+void seleccion(){
+    if(modos==1){
+      Serial.println("");
+      Serial.println("A continuacion ingrese los numeros");
+      contador++;
+    }
+    else{
+      Serial.println("");
+      Serial.println("La opcion no es permitida");
+    }
+}
