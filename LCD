@@ -1,0 +1,56 @@
+/*
+ * UNIVERSIDAD TÉCNICA DEL NORTE
+ * FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS 
+ * CARRERA DE INGENIERÍA EN ELECTRÓNICA Y REDES DE COMUNICACIÓN
+ * SISTEMAS MICROPROCESADOS
+ * 
+ * NOMBRE: VIVIANA YUCAILLA
+ * FECHA: MARTES 14/01/2020
+ * Realice un programa que ingrese una palabra por 
+ * comunicación serial y genere una rotación de caracteres en la LCD.
+ */
+
+#include <MsTimer2.h>
+#include <LiquidCrystal.h>
+LiquidCrystal lcd (13, 12, A0, A1, A2, A3);
+
+String dato;
+String palabra;
+int i;
+
+void setup () {
+  lcd.blink ();
+  Serial.begin (9600);
+}
+void loop () {
+  if (Serial.available ()> 0) {
+    dato = Serial.readString ();
+    lcd.setCursor (0, 0);
+    lcd.print ("");
+    lcd.setCursor (0, 0);
+    for (i = 0; i <dato.length () - 1; i ++) {
+      palabra = palabra + dato.substring (i, i + 1);
+    }
+    lcd.print (palabra);
+    delay (2000);
+    for (i = 0; i <palabra.length (); i ++) {
+      lcd.scrollDisplayLeft ();
+      delay (800);
+    }
+    for (i = 0; i <16 + palabra.length (); i ++) {
+      lcd.scrollDisplayRight ();
+      delay (800);
+    }
+    for (i = 0; i <16; i ++) {
+      lcd.scrollDisplayLeft ();
+      delay (800);
+    }
+
+  }
+  lcd.setCursor (0, 0);
+  lcd.print ("Ingresar palabra");
+  dato = "";
+  palabra = "";
+  lcd.print ("");
+  lcd.setCursor (0, 0);
+}
