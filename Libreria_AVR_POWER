@@ -23,10 +23,10 @@
 #include <TimerOne.h>
 
 LiquidCrystal lcd(13, 12, 11, 10, 9, 8);
-int cont = 0;
-int dato;
 int p_lcd = 7;
+int dato;
 int cifra = EEPROM.read(0);
+int cont = 0;
 
 void setup() {
   Timer1.initialize(1000000);
