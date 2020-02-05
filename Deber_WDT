@@ -1,0 +1,99 @@
+/*
+
+                UNIVERSIDAD TÉCNICA DEL NORTE
+         FACULTAD DE INGENIERÍA EN CIENCIAS APLICADAS
+   CARRERA DE INGENIERÍA EN ELECTRÓNICA Y REDES DE COMUNICACIÓN
+                  SISTEMAS MICROPROCESADOS
+
+   NOMBRE: VIVIANA YUCAILLA
+   FECHA: MARTES 4/02/2020
+
+   - Realizar un programa que mediante comunicación serial ingrese el tiempo de
+   reset del arduino de la siguiente forma: A-> 1 s B-> 2s C-> 4s D-> 8s
+   - Hay que tener en cuenta que el sistema puede ser re configurado la veces necesarias(interrupciones)
+   - Suba su enlace de su cuenta github
+*/
+
+#include <TimerOne.h>
+#include <avr/wdt.h>
+#include <EEPROM.h>
+
+int n1 = 0;
+int n2 = 0;
+int cont = 0;
+String Time;
+
+void setup() {
+  Serial.begin(9600);
+  attachInterrupt(0, menu, LOW);
+  attachInterrupt(1, inicio, LOW);
+  Serial.println("Sistema WDT");
+  Serial.println("Para activar presione la 2da interrupcion");
+  Timer1.stop();
+  n1 = 0;
+  cont = 0;
+  Time = " ";
+}
+
+void loop() {
+  if (n2 == 1) {
+    if (Serial.available() > 0 ) {
+      Time = Serial.readString();
+      Timer1.initialize(1000000);
+      Timer1.attachInterrupt(conteo);
+    }
+
+  }
+}
+
+void menu() {
+  switch (n2) {
+    case 0:
+      Serial.println("Ingrese el tiempo");
+      n2++;
+      break;
+    case 1:
+      Serial.println(" ");
+      n2 = 0;
+      break;
+
+  }
+}
+
+void conteo() {
+  cont++;
+  if (n1 == 1) {
+    if (Time == "A") {
+      Serial.println(String(2 - cont));
+    }
+    if (Time == "B") {
+      Serial.println(String(3 - cont));
+    }
+    if (Time == "C") {
+      Serial.println(String(5 - cont));
+    }
+    if (Time == "D") {
+      Serial.println(String(9 - cont));
+    }
+  }
+}
+
+void inicio() {
+  n1++;
+  if (Time == "A" && n1 == 1) {
+    Serial.println("Reinicio 1S");
+    wdt_enable(WDTO_1S);
+  }
+  if (Time == "B" && n1 == 1) {
+    Serial.println("Reinicio 2S");
+    wdt_enable(WDTO_2S);
+  }
+  if (Time == "C" && n1 == 1) {
+    Serial.println("Reinicio 4S");
+    wdt_enable(WDTO_4S);
+  }
+  if (Time == "D" && n1 == 1) {
+    Serial.println("Reinicio 8S");
+    wdt_enable(WDTO_8S);
+  }
+}
